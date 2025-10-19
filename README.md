@@ -21,6 +21,8 @@ steel-property-prediction/
 ├── notebooks/         # Jupyter notebooks
 │   ├── 01_exploratory_analysis.ipynb
 │   └── 02_model_training.ipynb
+├── app.py                    # Streamlit app for live predictions
+├── requirements.txt
 ├── .gitignore
 └── README.md
 ```
@@ -48,6 +50,9 @@ steel-property-prediction/
 
 - **models/XGB_Elongation_final.joblib**  
   Trained XGBoost model for elongation prediction.
+
+- **/app.py**
+  Streamlit application for interactive prediction interface.
 
 ## Models Overview
 
@@ -90,7 +95,7 @@ steel-property-prediction/
 ## Requirements
 
 * **Python**: 3.8+ (3.8–3.11 recommended)
-* **Core packages**: `numpy`, `pandas`, `scikit-learn`, `xgboost`, `matplotlib`, `seaborn`, `joblib`, `notebook`
+* **Core packages**: `numpy`, `pandas`, `scikit-learn`, `xgboost`, `matplotlib`, `seaborn`, `joblib`, `notebook`, `streamlit`
 
 ## Installation
 
@@ -102,7 +107,7 @@ cd steel-property-prediction
 
 2. Install dependencies:
 ```bash
-pip install numpy pandas scikit-learn xgboost jupyter joblib
+pip install -r requirements.txt
 ```
 
 ## Usage
@@ -112,6 +117,9 @@ pip install numpy pandas scikit-learn xgboost jupyter joblib
 ```python
 import joblib
 import pandas as pd
+import numpy as np
+from sklearn.preprocessing import FunctionTransformer
+from utils.feature_engineering import enhanced_features
 
 # Load models
 ridge_ts = joblib.load('models/Ridge_TS_poly_final.joblib')
@@ -134,6 +142,27 @@ elongation = xgb_elong.predict(input_data)
 print(f"Predicted Tensile Strength: {tensile_strength[0]:.2f}")
 print(f"Predicted Elongation: {elongation[0]:.2f}")
 ```
+## 🎨 Streamlit App (Interactive UI)
+
+![alt text](./data/app-preview.png)
+
+You can interactively predict properties using sliders.
+
+Run locally:
+
+```bash
+streamlit run app.py
+```
+
+Then open the displayed **local URL** (typically `http://localhost:8501/`) in your browser.
+
+The app includes:
+
+* Sliders for temperature and alloy composition
+* Live predictions for **Tensile Strength (MPa)** and **Elongation (%)**
+* Preloaded model pipelines
+
+---
 
 ## Development Workflow
 
@@ -147,6 +176,9 @@ print(f"Predicted Elongation: {elongation[0]:.2f}")
    - Feature engineering pipeline
    - Model training and evaluation
    - Save optimized models
+
+3. **Streamlit App**
+   - Launch `app.py` for Streamlit predictions
 
 ## Credits
 
